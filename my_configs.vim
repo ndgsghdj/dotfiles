@@ -22,7 +22,6 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'stevearc/dressing.nvim' " optional for vim.ui.select
 Plug 'akinsho/flutter-tools.nvim'
 Plug 'natebosch/dartlang-snippets'
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'folke/tokyonight.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.6' }
 Plug 'ellisonleao/glow.nvim'
@@ -35,9 +34,6 @@ Plug 'TobinPalmer/pastify.nvim'
 Plug 'img-paste-devs/img-paste.vim'
 Plug 'Al0den/tester.nvim'
 Plug 'Al0den/notion.nvim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'enricobacis/vim-airline-clock'
 Plug 'sotte/presenting.nvim'
 Plug 'amarakon/nvim-lua-script'
 Plug 'amarakon/nvim-unfocused-cursor'
@@ -53,12 +49,36 @@ Plug 'nvim-tree/nvim-web-devicons' " Recommended (for coloured icons)
 Plug 'b0o/incline.nvim'
 Plug 'Pocco81/true-zen.nvim'
 Plug 'dgox16/devicon-colorscheme.nvim'
-Plug 'crispgm/nvim-tabline'
+Plug 'nvim-zh/colorful-winsep.nvim'
+Plug 'AlphaTechnolog/pywal.nvim', { 'as': 'pywal' }
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'xiyaowong/transparent.nvim'
+Plug 'dylanaraps/wal.vim'
+Plug 'sonjiku/yawnc.nvim'
+Plug 'echasnovski/mini.tabline'
+Plug 'metakirby5/codi.vim'
 call plug#end()
 
-let g:airline_theme='catppuccin'
+let g:mkdp_markdown_css = '/Users/nikolawinata/Documents/2024-Notes/markdown-preview.css'
 
 let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'std-', 'std*', 'std+']
+" Use spaces instead of tabs
+set expandtab
+
+" Be smart when using tabs ;)
+set smarttab
+
+" 1 tab == 4 spaces
+set shiftwidth=4
+set tabstop=4
+
+" Linebreak on 500 characters
+set lbr
+set tw=500
+
+set ai "Auto indent
+set si "Smart indent
+set wrap "Wrap lines
 
 " Define a function to extract and add vocabulary
 function! AddVocabFromLine()
@@ -98,7 +118,11 @@ let g:mdip_imgdir = expand('%:r')
 
 "set termguicolors
 lua << EOF
-require('tabline').setup({})
+require('lualine').setup({
+    theme = 'yawnc'
+})
+require('pywal').setup()
+require('transparent').setup()
 require("devicon-colorscheme").setup({
     colors = {
         blue = "#89b4fa",
@@ -146,50 +170,51 @@ require("oil").setup(
         }
     }
 )
-require("catppuccin").setup({
-    flavour = "mocha",
-      no_bold = true,
-      no_italic = true,
-      no_underline = true,
-      color_overrides = {
-        mocha = {
-          base = "#11111b",
-          mantle = "#11111b",
-          crust = "#11111b",
-        },
-      },
-      integrations = {
-        cmp = true,
-        gitsigns = true,
-        indent_blankline = {
-          enabled = true,
-        },
-        lsp_trouble = true,
-        mason = true,
-        native_lsp = {
-          enabled = true,
-        },
-        noice = true,
-        telescope = {
-          enabled = true,
-        },
-        treesitter = true,
-        which_key = true,
-      },
-      custom_highlights = function(colors)
-        return {
-          CurSearch = { bg = colors.yellow },
-          CursorLineNr = { fg = colors.subtext0 },
-          CmpBorder = { fg = colors.subtext0, bg = colors.base },
-          Pmenu = { fg = colors.text, bg = colors.base },
-          PmenuSel = { fg = colors.text, bg = colors.surface0 },
-          LuaLineDiffAdd = { fg = colors.subtext0 },
-          LuaLineDiffChange = { fg = colors.subtext0 },
-          LuaLineDiffDelete = { fg = colors.subtext0 },
-        }
-  end,
-    }
-)
+-- require("catppuccin").setup({
+    -- transparent_background = true,
+    -- flavour = "mocha",
+      -- no_bold = true,
+      -- no_italic = true,
+      -- no_underline = true,
+      -- color_overrides = {
+        -- mocha = {
+          -- base = "#11111b",
+          -- mantle = "#11111b",
+          -- crust = "#11111b",
+        -- },
+      -- },
+      -- integrations = {
+        -- cmp = true,
+        -- gitsigns = true,
+        -- indent_blankline = {
+          -- enabled = true,
+        -- },
+        -- lsp_trouble = true,
+        -- mason = true,
+        -- native_lsp = {
+          -- enabled = true,
+        -- },
+        -- noice = true,
+        -- telescope = {
+          -- enabled = true,
+        -- },
+        -- treesitter = true,
+        -- which_key = true,
+      -- },
+      -- custom_highlights = function(colors)
+        -- return {
+          -- CurSearch = { bg = colors.yellow },
+          -- CursorLineNr = { fg = colors.subtext0 },
+          -- CmpBorder = { fg = colors.subtext0, bg = colors.base },
+          -- Pmenu = { fg = colors.text, bg = colors.base },
+          -- PmenuSel = { fg = colors.text, bg = colors.surface0 },
+          -- LuaLineDiffAdd = { fg = colors.subtext0 },
+          -- LuaLineDiffChange = { fg = colors.subtext0 },
+          -- LuaLineDiffDelete = { fg = colors.subtext0 },
+        -- }
+  -- end,
+    -- }
+-- )
 require("flutter-tools").setup({})
 require("github-preview").setup({
 })
@@ -236,122 +261,13 @@ require'nvim-treesitter.configs'.setup {
             },
 }
 
-require('render-markdown').setup({
--- Configure whether Markdown should be rendered by default or not
-start_enabled = true,
--- Capture groups that get pulled from markdown
-markdown_query = [[
-(atx_heading [
-    (atx_h1_marker)
-    (atx_h2_marker)
-    (atx_h3_marker)
-    (atx_h4_marker)
-    (atx_h5_marker)
-    (atx_h6_marker)
-    ] @heading)
-
-(thematic_break) @dash
-
-(fenced_code_block) @code
-
-[
-(list_marker_plus)
-(list_marker_minus)
-(list_marker_star)
-] @list_marker
-
-        (task_list_marker_unchecked) @checkbox_unchecked
-        (task_list_marker_checked) @checkbox_checked
-
-        (block_quote (block_quote_marker) @quote_marker)
-        (block_quote (paragraph (inline (block_continuation) @quote_marker)))
-
-        (pipe_table) @table
-        (pipe_table_header) @table_head
-        (pipe_table_delimiter_row) @table_delim
-        (pipe_table_row) @table_row
-        ]],
-    -- Capture groups that get pulled from inline markdown
-    inline_query = [[
-    (code_span) @code
-    ]],
--- The level of logs to write to file: vim.fn.stdpath('state') .. '/render-markdown.log'
--- Only intended to be used for plugin development / debugging
-log_level = 'error',
--- Filetypes this plugin will run on
-file_types = { 'markdown' },
--- Vim modes that will show a rendered view of the markdown file
--- All other modes will be uneffected by this plugin
-render_modes = { 'n', 'c' },
--- Characters that will replace the # at the start of headings
--- headings = {"# ", "## ", "### ", "#### ", "##### ", "###### "}, 
-headings = {"◨ ", "◨ ", "◨ ", "◨ ", "◨ ", "◨ " }, 
---headings = { '?? ', '?? ', '?? ', '?? ', '?? ', '?? ' },
--- Character to use for the horizontal break
-dash = '—',
--- Character to use for the bullet points in lists
-bullets = { '●', '○', '◆', '◇' },
-checkbox = {
-    -- Character that will replace the [ ] in unchecked checkboxes
-    unchecked = '[  ]',
-    -- Character that will replace the [x] in checked checkboxes
-    checked = '[x]',
-    },
-    -- Character that will replace the > at the start of block quotes
-    quote = '┃',
-    -- See :h 'conceallevel' for more information about meaning of values
-    conceal = {
-        -- conceallevel used for buffer when not being rendered, get user setting
-        default = vim.opt.conceallevel:get(),
-        -- conceallevel used for buffer when being rendered
-        rendered = 3,
-        },
-        -- Add a line above and below tables to complete look, ends up like a window
-        fat_tables = true,
-        -- Define the highlight groups to use when rendering various components
-        highlights = {
-            heading = {
-                -- Background of heading line
-                backgrounds = { 'DiffAdd', 'DiffChange', 'DiffDelete' },
-                -- Foreground of heading character only
-                foregrounds = {
-                    'markdownH1',
-                    'markdownH2',
-                    'markdownH3',
-                    'markdownH4',
-                    'markdownH5',
-                    'markdownH6',
-                    },
-                },
-            -- Horizontal break
-            dash = 'LineNr',
-            -- Code blocks
-            code = 'ColorColumn',
-            -- Bullet points in list
-            bullet = 'Normal',
-            checkbox = {
-                -- Unchecked checkboxes
-                unchecked = '@markup.list.unchecked',
-                -- Checked checkboxes
-                checked = '@markup.heading',
-                },
-            table = {
-                -- Header of a markdown table
-                head = '@markup.heading',
-                -- Non header rows in a markdown table
-                row = 'Normal',
-                },
-            -- LaTeX blocks
-            latex = '@markup.math',
-            -- Quote character in a block quote
-            quote = '@markup.quote',
-            },
-})
+--require('render-markdown').setup({ latex = { enabled = false } })
+require('mini.tabline').setup()
 
 
 EOF
 
-colorscheme catppuccin
+colorscheme pywal
 
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
@@ -396,7 +312,9 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
-inoremap jk <Esc>
-
-"hi Normal guibg=NONE ctermbg=NONE
+:noremap <leader>mm
+    \ :s/ = .*//e<cr>
+    \0y$
+    \!!sed 's/mean/avg/;s/^/round(/;s/$/,3)/'<cr>
+    \!!calc -p<cr>
+    \Pa = <esc>hh
