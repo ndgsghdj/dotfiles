@@ -1,0 +1,1 @@
+/Users/nikolawinata/.cache/wal/colors.lua

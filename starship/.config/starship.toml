@@ -1,0 +1,38 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+format = """
+$directory\
+$git_branch\
+$git_status \
+"""
+
+[directory]
+truncation_length = 3
+truncation_symbol = "…/"
+style = "bg:#25282c cyan"
+format = "[ $path ]($style)"
+ 
+[git_branch]
+symbol = "󰘬"
+style = "bg:#313244 green"
+format = '[ $symbol $branch ]($style)'
+ 
+[git_status]
+style = "bg:#313244 green"
+format = '[$all_status$ahead_behind ]($style)'
+conflicted = "="
+ahead = "󱦲"
+behind = "󱦳"
+diverged = "↕"
+up_to_date = ""
+untracked = "?"
+stashed = "$"
+modified = "!"
+staged = "󰐕"
+renamed = ""
+deleted = "✕"
+typechanged = ""
