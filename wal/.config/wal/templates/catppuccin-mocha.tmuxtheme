@@ -1,0 +1,15 @@
+# --> Catppuccin (Mocha)
+thm_bg="{background}"
+thm_fg="{foreground}"
+thm_cyan="{color6}"
+thm_black="{color0}"
+thm_gray="{color7}"
+thm_magenta="{color5}"
+thm_pink="{color13}"
+thm_red="{color1}"
+thm_green="{color2}"
+thm_yellow="{color3}"
+thm_blue="{color4}"
+thm_orange="{color9}"
+thm_black4="{color8}"
+
